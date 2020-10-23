@@ -2,6 +2,7 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { MyValidator } from 'src/app/utils/my-validator';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -18,14 +19,14 @@ export class FormComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      date: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      text: ['', [Validators.required, Validators.maxLength(80)]],
-      category: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+    age: [0, [MyValidator.isYounger]],
+    price: [0, Validators.max(3000)],
+    terms: ['', Validators.requiredTrue],
+    name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
+    text: ['', [Validators.required, Validators.maxLength(80)]],
+    category: ['', [Validators.required]],
+    gender: ['', [Validators.required]],
     });
-
     this.form.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
       console.log(value);
     });

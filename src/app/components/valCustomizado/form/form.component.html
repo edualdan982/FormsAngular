@@ -11,6 +11,14 @@
   </div>
 </section>
 <div class="container">
+  <div class="field">
+    <label class="label">Age</label>
+    <div class="control">
+      <input class="input" [class.is-danger]="form.get('age').dirty && form.get('age').invalid" type="text"
+        formControlName="age" />
+    </div>
+    {{ form.get('age').errors | json }}
+  </div>
   <section class="section">
     <form [formGroup]="form" novalidate (ngSubmit)="save($event)">
       <div class="field">
