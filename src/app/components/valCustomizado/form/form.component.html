@@ -1,4 +1,178 @@
-<form [formGroup]="form" novalidate (ngSubmit)="save($event)">
+<section class="hero is-primary is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Crear producto
+      </h1>
+      <h2 class="subtitle">
+        Forms en Angular
+      </h2>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <section class="section">
+    <form [formGroup]="form" novalidate (ngSubmit)="save($event)">
+      <div class="field">
+        <label class="label">Nombre</label>
+        <div class="control has-icons-left has-icons-right">
+          <input 
+            class="input"
+            [class.is-success] ="nameFieldIsValid"
+            [class.is-danger] = "nameFieldIsInvalid"
+            type="text" 
+            formControlName="name"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </div>
+        <div *ngIf="nameField.errors && nameField.touched">
+          <p *ngIf="nameField.hasError('required')" class="help is-danger">
+            El Nombre es Requerido
+          </p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Fecha</label>
+        <div class="control has-icons-left has-icons-right">
+          <input 
+            class="input"
+            type="date"
+            [class.is-success]="dateFielIsValid"
+            [class.is-danger] = "dateFielIsInvalid"
+            formControlName="date"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-calendar-alt"></i>
+          </span>
+          <span *ngIf="dateFielIsInvalid; else elseDateField" class="icon is-small is-right">
+            <i class="fas fa-times"></i>
+          </span>
+          <ng-template #elseDateField>
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </ng-template>
+        </div>
+        <div *ngIf="dateField.errors && dateField.touched">
+          <p class="help is-danger">La fecha es requerida</p>
+        </div>
+      </div>
+      <button class="button is-primary" type="button" (click)="doSomething()">
+        Accion
+      </button>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+          <input 
+            class="input"
+            [class.is-danger]= "emailFieldIsInvalid"
+            [class.is-success]="emailFieldIsValid" 
+            type="email" 
+            formControlName="email"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+          <span *ngIf="emailFieldIsInvalid; else elseEmailField" class="icon is-small is-right">
+            <i class="fas fa-times"></i>
+          </span>
+          <ng-template #elseEmailField>
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </ng-template>
+        </div>
+        <div *ngIf="emailField.errors && emailField.touched">
+          <p *ngIf="emailField.hasError('required')" class="help is-danger">
+            Es un campo requerido
+          </p>
+          <p *ngIf="emailField.hasError('email')" class="help is-danger">
+            No es un email
+          </p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Texto largo:</label>
+        <div class="control">
+          <textarea 
+            class="textarea" 
+            cols="30" rows="10"
+            [class.is-success]="form.get('text').touched && form.get('text').valid"
+            [class.is-danger]="form.get('text').touched && form.get('text').invalid" 
+            formControlName="text">
+          </textarea>
+          {{ form.get("text").value.length }}/80
+        </div>
+        <div class="help is-danger" *ngIf="form.get('text').errors && form.get('text').touched">
+          <p *ngIf="form.get('text').hasError('required')">
+            Es un campo requerido
+          </p>
+           <p *ngIf="form.get('text').hasError('maxlength')">
+              Te pasaste, máximo deben haber 80 caracteres.
+          </p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Categorias:</label>
+        <div class="control">
+          <div 
+          [class.is-success]="form.get('category').touched && form.get('category').valid"  
+          [class.is-danger]="form.get('category').touched && form.get('category').invalid"
+          class="select">
+            <select 
+            formControlName="category"
+            >
+              <option value="1">Categoria 1</option>
+              <option value="2">Categoria 2</option>
+              <option value="3">Categoria 3</option>
+            </select>
+          </div>
+        </div>
+        <div class="help is-danger" *ngIf="form.get('category').errors && form.get('category').touched">
+          <p *ngIf="form.get('category').hasError('required')">
+            Deve selecionar un categoria.
+          </p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Genero:</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="gender" formControlName="gender" value="male" />
+            Masculino
+          </label>
+          <label class="radio">
+            <input type="radio" name="gender" formControlName="gender" value="female" />
+            Femenino
+          </label>
+          <label class="radio">
+            <input type="radio" name="gender" formControlName="gender" value="other" />
+            Otro
+          </label>
+        </div>
+        <div class="help is-danger" *ngIf="form.get('gender').errors">
+          <p *ngIf="form.get('gender').hasError('required')">
+            El Genero es requerido
+          </p>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary" [disabled]="form.invalid" type="submit">Guardar</button>
+        </div>
+        <div class="control">
+          <button class="button is-light" type="reset">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+<!-- <form [formGroup]="form" novalidate (ngSubmit)="save($event)">
   <p>
     Name: <br />
     <input type="text" formControlName="name">
@@ -49,4 +223,4 @@
     <input type="radio" name="gender" formControlName="gender" value="other"> Other
   </p>
   <button type="submit">Guardar</button>
-</form>
+</form> -->
