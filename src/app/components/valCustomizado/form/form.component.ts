@@ -19,17 +19,19 @@ export class FormComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-    age: [0, [MyValidator.isYounger]],
-    price: [0, Validators.max(3000)],
-    terms: ['', Validators.requiredTrue],
-    name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
-    text: ['', [Validators.required, Validators.maxLength(80)]],
-    category: ['', [Validators.required]],
-    gender: ['', [Validators.required]],
+      age: [0, [MyValidator.age]],
+      price: [0, Validators.max(3000)],
+      terms: ['', Validators.requiredTrue],
+      email: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
+      text: ['', [Validators.required, Validators.maxLength(80)]],
+      date: ['', Validators.required],
+      category: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
     });
-    this.form.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
-      console.log(value);
-    });
+    // this.form.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
+    //   console.log(value);
+    // });
   }
   save(event: Event): void {
     event.preventDefault();
